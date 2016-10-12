@@ -12,7 +12,7 @@ public class TimeObserver extends BasicObservable<LocalDateTime> {
         Executors.newSingleThreadExecutor().execute(() -> {
             while (true) {
                 try {
-                    Thread.sleep(1);
+                    Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }

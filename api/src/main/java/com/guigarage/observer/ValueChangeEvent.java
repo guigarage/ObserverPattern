@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public interface ValueChangeEvent<V> {
 
-    Observable getSource();
+    Observable<V> getSource();
 
     Optional<V> oldValue();
 
