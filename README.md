@@ -4,7 +4,7 @@ This repository contains a generic definition of the observer pattern for Java.
 
 ## Why do I need this?
 
-Currently Java only contains the `java.util.Observable class` that is part since Java 1 and it's
+Currently Java only contains the `java.util.Observable` class that is part since Java 1 and it's
 functionality and API don't use modern Java languages features and APIs like generics, functional
 interfaces or Optional. Based on this it's quite hard to work with this implementation and mostly
 all modern Java framework don't use it. Instead custom implementations of the observer pattern
