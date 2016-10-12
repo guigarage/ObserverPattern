@@ -10,15 +10,15 @@ public interface ValueChangeEvent<V> {
 
     Observable<V> getObservable();
 
-    Optional<V> oldValue();
-
-    Optional<V> newValue();
-
-    default V getOldValue() {
-        return oldValue().get();
+    default Optional<V> oldValue() {
+        return Optional.ofNullable(getOldValue());
     }
 
-    default V getNewValue() {
-        return newValue().get();
+    default Optional<V> newValue() {
+        return Optional.ofNullable(getNewValue());
     }
+
+    V getOldValue();
+
+    V getNewValue();
 }
