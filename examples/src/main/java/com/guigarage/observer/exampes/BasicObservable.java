@@ -35,7 +35,7 @@ public class BasicObservable<V> implements Observable<V> {
     private void fireChangeEvent(final V oldValue, final V newValue) {
         final ValueChangeEvent<V> event = new ValueChangeEvent<V>() {
             @Override
-            public Observable getSource() {
+            public Observable getObservable() {
                 return BasicObservable.this;
             }
 

@@ -3,7 +3,8 @@ package com.guigarage.observer.collection;
 import java.util.List;
 
 /**
- * Created by hendrikebbers on 12.10.16.
+ * TODO
+ * @author Hendrik Ebbers
  */
 public interface CollectionChangeEvent<E, C extends ObservableCollection<E, C, ?>, V extends CollectionChange<E, C>> {
 

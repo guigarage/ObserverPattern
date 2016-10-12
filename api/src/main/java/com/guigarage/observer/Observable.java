@@ -2,6 +2,10 @@ package com.guigarage.observer;
 
 import java.util.Optional;
 
+/**
+ * TODO
+ * @author Hendrik Ebbers
+ */
 public interface Observable<V> {
 
     default V get() {

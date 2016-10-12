@@ -1,7 +1,8 @@
 package com.guigarage.observer.collection;
 
 /**
- * Created by hendrikebbers on 12.10.16.
+ * TODO
+ * @author Hendrik Ebbers
  */
 public interface CollectionChange<E, C extends ObservableCollection<E, C, ?>> {
 

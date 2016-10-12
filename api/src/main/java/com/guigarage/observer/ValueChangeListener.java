@@ -2,6 +2,10 @@ package com.guigarage.observer;
 
 import java.util.EventListener;
 
+/**
+ * TODO
+ * @author Hendrik Ebbers
+ */
 @FunctionalInterface
 public interface ValueChangeListener<V> extends EventListener {
 

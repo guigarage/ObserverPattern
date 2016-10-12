@@ -2,9 +2,13 @@ package com.guigarage.observer;
 
 import java.util.Optional;
 
+/**
+ * TODO
+ * @author Hendrik Ebbers
+ */
 public interface ValueChangeEvent<V> {
 
-    Observable<V> getSource();
+    Observable<V> getObservable();
 
     Optional<V> oldValue();
 
