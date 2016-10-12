@@ -1,6 +1,9 @@
 package com.guigarage.observer.collection;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * TODO
@@ -10,5 +13,9 @@ public interface CollectionChangeEvent<E, C extends ObservableCollection<E, C, ?
 
     C getCollection();
 
-    List<V> getChanges();
+    Stream<V> changes();
+
+    default List<V> getChanges() {
+        return Collections.unmodifiableList(changes().collect(Collectors.toList()));
+    }
 }
