@@ -40,26 +40,21 @@ public class BasicObservable<V> implements Observable<V> {
             }
 
             @Override
-            public Optional<V> oldValue() {
-                return Optional.ofNullable(oldValue);
+            public V getOldValue() {
+                return oldValue;
             }
 
             @Override
-            public Optional<V> newValue() {
-                return Optional.ofNullable(newValue);
+            public V getNewValue() {
+                return newValue;
             }
         };
         listeners.forEach(l -> l.valueChanged(event));
     }
 
     @Override
-    public Optional<V> value() {
-        valueLock.lock();
-        try {
-            return Optional.ofNullable(value);
-        } finally {
-            valueLock.unlock();
-        }
+    public V get() {
+        return value;
     }
 
     @Override
