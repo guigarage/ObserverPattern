@@ -1,4 +1,4 @@
-package com.guigarage.observer.exampes;
+package javax.observer.examples;
 
 
 import javax.observer.Property;

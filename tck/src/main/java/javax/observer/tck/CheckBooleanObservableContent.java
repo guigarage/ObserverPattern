@@ -6,7 +6,7 @@ import javax.observer.ValueChangeEvent;
 import javax.observer.ValueChangeListener;
 import java.util.Objects;
 
-public class CheckObservableContent {
+public class CheckBooleanObservableContent {
 
     public static void checkBooleanObservableBasicMethods(final Observable<Boolean> observable) {
         Objects.requireNonNull(observable);
