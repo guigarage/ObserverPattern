@@ -1,12 +1,11 @@
 package com.guigarage.observer.exampes;
 
-import com.guigarage.observer.Observable;
-import com.guigarage.observer.Subscription;
-import com.guigarage.observer.ValueChangeEvent;
-import com.guigarage.observer.ValueChangeListener;
+import javax.observer.Observable;
+import javax.observer.Subscription;
+import javax.observer.ValueChangeEvent;
+import javax.observer.ValueChangeListener;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;

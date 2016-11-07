@@ -1,4 +1,4 @@
-package com.guigarage.observer.collection;
+package javax.observer.collection;
 
 import java.util.Set;
 

@@ -1,7 +1,7 @@
 package com.guigarage.observer.exampes;
 
 
-import com.guigarage.observer.Property;
+import javax.observer.Property;
 
 public class BasicProperty<V> extends BasicObservable<V> implements Property<V> {
 

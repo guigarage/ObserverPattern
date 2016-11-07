@@ -1,4 +1,4 @@
-package com.guigarage.observer;
+package javax.observer;
 
 /**
  * TODO

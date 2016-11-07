@@ -1,6 +1,6 @@
-package com.guigarage.observer.collection;
+package javax.observer.collection;
 
-import com.guigarage.observer.Subscription;
+import javax.observer.Subscription;
 
 import java.util.Collection;
 
