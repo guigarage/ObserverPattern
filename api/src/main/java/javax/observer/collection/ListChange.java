@@ -1,33 +1,28 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package javax.observer.collection;
 
+import java.util.List;
+
 /**
- * Represents a list change. A list change consists of an element list
- * containing the changed elements and an index array which contains the indices
- * of the changed elements.
- *
- * @author Hendrik Ebbers (TODO email missing)
+ * 
+ * @param <T> element type of the collection
+ * 
  * @author Michael Hoffer (info@michaelhoffer.de)
  */
-public interface ListChange<E> extends CollectionChange<E, ObservableList<E>> {
+public interface ListChange<T> extends CollectionChange<T>{
 
     /**
-     * Returns the indices of the elements that are affected by this change. Returning {@code null} is not supported.
-     * Implementations must return an empty array instead to comply with this API.
-     *
-     * @return the indices of the elements that are affected by this change
+     * @return the indices of the changed elements
      */
     int[] indices();
 
     /**
-     * Returns an empty collection change.
-     *
-     * @param <sE> element type
-     * @param <sC> collection type
-     * @return empty collection change
+     * @return changed elements
      */
-    static <sE, sC extends ObservableCollection<sE, sC, ?>> CollectionChange<sE, sC> empty() {
-        // TODO return empty change
-        return null;
-    }
-
+    @Override
+    List<T> elements();
 }

@@ -1,45 +1,22 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package javax.observer.collection;
 
+import java.util.Collection;
+
 /**
- * Represents a collection change event. An event contains information about all changes made by
- * the action that fired the event.
- * <p>
- * Events contain information about added and removed elements. Additionally,
- * events contain information whether the changes were caused by a set
- * opperation (removed elements are replaced by added elements).
- *
- * @author Hendrik Ebbers (TODO add email here)
- * @author Michael Hoffer (info@michaelhoffer)
+ * 
+ * @param <T> element type of the collection
+ * @param <OC> observed collection type
+ * @param <CC> collection change type
+ * 
+ * @author Michael Hoffer (info@michaelhoffer.de)
  */
-public interface CollectionChangeEvent<E, C extends ObservableCollection<E, C, ?>, V extends CollectionChange<E, C>> {
-
-    /**
-     * Returns the source collection, e.g., the collection that fired the change event
-     *
-     * @return the source collection
-     */
-    C source();
-
-    /**
-     * Returns the change that contains all elements that were added during this
-     * event.
-     *
-     * @return the change that contains all elements that were added during this
-     * event
-     */
-    CollectionChange<E, C> added();
-
-    /**
-     * Returns the change that contains all elements that were removed during
-     * this event.
-     *
-     * @return the change that contains all elements that were removed during
-     * this event
-     */
-    CollectionChange<E, C> removed();
-
-
-    /**
+public interface CollectionChangeEvent<T, OC extends Collection<T>, CC extends CollectionChange<T>> {
+        /**
      * Indicates whether elements were added during this event.
      *
      * @return {@code true} if elements were added during this event;
@@ -63,6 +40,30 @@ public interface CollectionChangeEvent<E, C extends ObservableCollection<E, C, ?
      */
     boolean wasSet();
 
-    // TODO do we need wasPermutated() like JavaFX does?
+    /**
+     * Returns the change that contains all elements that were added during this
+     * event.
+     *
+     * @return the change that contains all elements that were added during this
+     * event
+     */
+    CC added();
 
+    /**
+     * Returns the change that contains all elements that were removed during
+     * this event.
+     *
+     * @return the change that contains all elements that were removed during
+     * this event
+     */
+    CC removed();
+
+    /**
+     * Returns the source collection, e.g., the collection that fired the change event
+     *
+     * @return the source list
+     */
+    OC source();
+
+    
 }
