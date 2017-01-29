@@ -1,14 +1,13 @@
 package javax.observer.collection;
 
+
+import java.util.List;
+
 /**
- * TODO
- * @author Hendrik Ebbers
+ * 
+ * @author Michael Hoffer <info@michaelhoffer.de>
+ * @param <T> element type os the collection
  */
-public interface CollectionChange<E, C extends ObservableCollection<E, C, ?>> {
-
-    boolean wasAdded();
-
-    boolean wasRemoved();
-
-    C getCollection();
+public interface CollectionChange<T> {
+    List<T> elements();
 }

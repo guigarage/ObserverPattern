@@ -1,18 +1,28 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package javax.observer.collection;
 
 import java.util.List;
 
 /**
- * TODO
- * @author Hendrik Ebbers
+ * 
+ * @param <T> element type of the collection
+ * 
+ * @author Michael Hoffer (info@michaelhoffer.de)
  */
-public interface ListChange<E> extends CollectionChange<E, ObservableList<E>> {
+public interface ListChange<T> extends CollectionChange<T>{
 
-    int getFrom();
+    /**
+     * @return the indices of the changed elements
+     */
+    int[] indices();
 
-    int getTo();
-
-    List<E> getRemovedElements();
-
-    boolean wasReplaced();
+    /**
+     * @return changed elements
+     */
+    @Override
+    List<T> elements();
 }
