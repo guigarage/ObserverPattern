@@ -7,6 +7,9 @@ import java.util.function.Consumer;
 /**
  * This interface defines objects that can be bound to an {@link Observable}. By doing so any change of
  * the value of the {@link Observable} will be propagated to this object.
+ *
+ * TODO: should this extend {@link Observable}???
+ *
  * @param <T> type of the value
  */
 public interface Bindable<T> {
