@@ -19,7 +19,7 @@
     <modules>
         <module>api</module>
         <module>tck</module>
-        <module>examples</module>
+        <module>impl</module>
     </modules>
 
 </project>
