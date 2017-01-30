@@ -8,10 +8,10 @@ import java.util.Optional;
  */
 public interface Observable<V> {
 
-    V get();
+    V getValue();
 
     default Optional<V> value() {
-        return Optional.ofNullable(get());
+        return Optional.ofNullable(getValue());
     }
 
     Subscription onChanged(ValueChangeListener<? super V> listener);

@@ -1,4 +1,4 @@
-package javax.observer.tck;
+package javax.observer.tck.util;
 
 /**
  * Created by hendrikebbers on 31.10.16.
