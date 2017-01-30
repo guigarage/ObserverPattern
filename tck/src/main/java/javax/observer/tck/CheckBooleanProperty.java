@@ -24,8 +24,6 @@ public class CheckBooleanProperty {
                 throw new RuntimeException("FAIL");
             }
         });
-        property.setValue(Boolean.FALSE);
-        property.setValue(Boolean.TRUE);
         subscription.unsubscribe();
         property.setValue(Boolean.FALSE);
         property.setValue(Boolean.TRUE);

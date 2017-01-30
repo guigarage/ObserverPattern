@@ -1,21 +1,69 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package javax.observer.collection;
 
-import java.util.Collections;
-import java.util.List;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
+import java.util.Collection;
 
 /**
- * TODO
- * @author Hendrik Ebbers
+ * 
+ * @param <T> element type of the collection
+ * @param <OC> observed collection type
+ * @param <CC> collection change type
+ * 
+ * @author Michael Hoffer (info@michaelhoffer.de)
  */
-public interface CollectionChangeEvent<E, C extends ObservableCollection<E, C, ?>, V extends CollectionChange<E, C>> {
+public interface CollectionChangeEvent<T, OC extends Collection<T>, CC extends CollectionChange<T>> {
+        /**
+     * Indicates whether elements were added during this event.
+     *
+     * @return {@code true} if elements were added during this event;
+     * {@code false} otherwise
+     */
+    boolean wasAdded();
 
-    C getCollection();
+    /**
+     * Indicates whether elements were removed during this event.
+     *
+     * @return {@code true} if elements were removed during this event;
+     * {@code false} otherwise
+     */
+    boolean wasRemoved();
 
-    Stream<V> changes();
+    /**
+     * Indicates whether elements were set, e.g., replaced during this event.
+     *
+     * @return {@code true} if elements were set during this event;
+     * {@code false} otherwise
+     */
+    boolean wasSet();
 
-    default List<V> getChanges() {
-        return Collections.unmodifiableList(changes().collect(Collectors.toList()));
-    }
+    /**
+     * Returns the change that contains all elements that were added during this
+     * event.
+     *
+     * @return the change that contains all elements that were added during this
+     * event
+     */
+    CC added();
+
+    /**
+     * Returns the change that contains all elements that were removed during
+     * this event.
+     *
+     * @return the change that contains all elements that were removed during
+     * this event
+     */
+    CC removed();
+
+    /**
+     * Returns the source collection, e.g., the collection that fired the change event
+     *
+     * @return the source list
+     */
+    OC source();
+
+    
 }

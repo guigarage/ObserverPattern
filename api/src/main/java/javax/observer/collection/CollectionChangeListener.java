@@ -1,14 +1,25 @@
 package javax.observer.collection;
 
+
+import java.util.Collection;
 import java.util.EventListener;
 
 /**
- * TODO
- * @author Hendrik Ebbers
+ *  
+ * @param <T> element type of the collection
+ * @param <OC> observed collection type
+ * @param <CC> collection change type
+ * 
+ * @author Michael Hoffer (info@michaelhoffer.de)
  */
-@FunctionalInterface
-public interface CollectionChangeListener<E, C extends ObservableCollection<E, C, ?>, V extends CollectionChange<E, C>> extends EventListener {
+public interface CollectionChangeListener<T, OC extends Collection<T>, CC  extends CollectionChange<T>> extends EventListener {
 
-    void onChanged(CollectionChangeEvent<E, C, V> e);
+    /**
+     * This method is called whenever the observed list changes.
+     *
+     * @param evt change event that contains detailed information on which
+     * elements have been changed
+     */
+
+    void onChange(CollectionChangeEvent<T, OC, CC> evt);
 }
-
