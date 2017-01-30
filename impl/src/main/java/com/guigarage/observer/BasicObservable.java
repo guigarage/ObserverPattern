@@ -31,23 +31,27 @@ public class BasicObservable<V> implements Observable<V> {
     }
 
     private void fireChangeEvent(final V oldValue, final V newValue) {
-        final ValueChangeEvent<V> event = new ValueChangeEvent<V>() {
-            @Override
-            public Observable getObservable() {
-                return BasicObservable.this;
-            }
-
-            @Override
-            public V getOldValue() {
-                return oldValue;
-            }
-
-            @Override
-            public V getNewValue() {
-                return newValue;
-            }
-        };
+        final ValueChangeEvent<V> event = createChangeEvent(oldValue, newValue);
         listeners.forEach(l -> l.valueChanged(event));
+    }
+
+    private ValueChangeEvent<V> createChangeEvent(final V oldValue, final V newValue) {
+        return new ValueChangeEvent<V>() {
+                @Override
+                public Observable getObservable() {
+                    return BasicObservable.this;
+                }
+
+                @Override
+                public V getOldValue() {
+                    return oldValue;
+                }
+
+                @Override
+                public V getNewValue() {
+                    return newValue;
+                }
+            };
     }
 
     @Override
@@ -58,6 +62,16 @@ public class BasicObservable<V> implements Observable<V> {
     @Override
     public Subscription onChanged(ValueChangeListener<? super V> listener) {
         listeners.add(listener);
+        return () -> listeners.remove(listener);
+    }
+
+    @Override
+    public Subscription onChangedAndCall(ValueChangeListener<? super V> listener) {
+        listeners.add(listener);
+
+        final ValueChangeEvent<V> event = createChangeEvent(BasicObservable.this.getValue(), BasicObservable.this.getValue());
+
+        listener.valueChanged(event);
         return () -> listeners.remove(listener);
     }
 }

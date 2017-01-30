@@ -15,4 +15,6 @@ public interface Observable<V> {
     }
 
     Subscription onChanged(ValueChangeListener<? super V> listener);
+
+    Subscription onChangedAndCall(ValueChangeListener<? super V> listener);
 }
