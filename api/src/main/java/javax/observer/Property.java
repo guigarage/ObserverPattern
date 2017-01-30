@@ -6,5 +6,5 @@ package javax.observer;
  */
 public interface Property<V> extends Observable<V> {
 
-    void set(V value);
+    void setValue(V value);
 }

@@ -1,4 +1,4 @@
-package javax.observer.examples;
+package com.guigarage.observer;
 
 import javax.observer.Observable;
 import javax.observer.Subscription;
@@ -51,7 +51,7 @@ public class BasicObservable<V> implements Observable<V> {
     }
 
     @Override
-    public V get() {
+    public V getValue() {
         return value;
     }
 

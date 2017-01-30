@@ -1,6 +1,6 @@
-package javax.observer.examples.timer;
+package com.guigarage.examples;
 
-import javax.observer.examples.BasicObservable;
+import com.guigarage.observer.BasicObservable;
 
 import java.time.LocalDateTime;
 import java.util.concurrent.Executors;

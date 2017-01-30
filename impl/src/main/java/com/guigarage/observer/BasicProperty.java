@@ -1,4 +1,4 @@
-package javax.observer.examples;
+package com.guigarage.observer;
 
 
 import javax.observer.Property;
@@ -6,7 +6,7 @@ import javax.observer.Property;
 public class BasicProperty<V> extends BasicObservable<V> implements Property<V> {
 
     @Override
-    public void set(V value) {
+    public void setValue(V value) {
         updateValue(value);
     }
 }
