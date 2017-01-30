@@ -2,8 +2,8 @@ package javax.observer.tck;
 
 import javax.observer.Property;
 import javax.observer.Subscription;
-import javax.observer.ValueChangeEvent;
-import javax.observer.ValueChangeListener;
+import javax.observer.ValueChangedEvent;
+import javax.observer.ValueChangedListener;
 import java.util.Objects;
 
 /**
@@ -18,9 +18,9 @@ public class CheckBooleanProperty {
         property.value().orElse(true);
         property.setValue(Boolean.FALSE);
         property.setValue(Boolean.TRUE);
-        final Subscription subscription = property.onChanged(new ValueChangeListener<Boolean>() {
+        final Subscription subscription = property.onChanged(new ValueChangedListener<Boolean>() {
             @Override
-            public void valueChanged(ValueChangeEvent<? extends Boolean> event) {
+            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
                 throw new RuntimeException("FAIL");
             }
         });

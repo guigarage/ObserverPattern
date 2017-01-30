@@ -14,5 +14,7 @@ public interface Observable<V> {
         return Optional.ofNullable(getValue());
     }
 
-    Subscription onChanged(ValueChangeListener<? super V> listener);
+    Subscription onChanged(ValueChangedListener<? super V> listener);
+
+    Subscription onWillChange(ValueWillChangeListener<? super V> listener);
 }
