@@ -26,6 +26,8 @@ repository to provide a unique observer API for Java.
 
 The API provide observer support for values and collections. 
 
+TODO: The API has changed with the last PRs and this document must be updated.
+
 ### Working with values
 
 Since Java do not provide a native observer
