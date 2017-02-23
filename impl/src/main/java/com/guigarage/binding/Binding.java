@@ -41,7 +41,7 @@ public class Binding {
                     if(!bindingCalled) {
                         bindingCalled = true;
                         try {
-                            property.setValue(converter.apply(e.getNewValue()));
+                            property.setValue(converter.apply(e.getValue()));
                         } catch (Exception ex) {
                             errorHandler.accept(ex);
                         } finally {
