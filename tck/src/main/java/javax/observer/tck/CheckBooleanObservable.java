@@ -2,8 +2,8 @@ package javax.observer.tck;
 
 import javax.observer.Observable;
 import javax.observer.Subscription;
-import javax.observer.ValueChangeEvent;
-import javax.observer.ValueChangeListener;
+import javax.observer.ValueChangedEvent;
+import javax.observer.ValueChangedListener;
 import javax.observer.tck.util.ValueHolder;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -15,9 +15,9 @@ public class CheckBooleanObservable {
         observable.getValue();
         observable.value();
         observable.value().orElse(true);
-        final Subscription subscription = observable.onChanged(new ValueChangeListener<Boolean>() {
+        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
             @Override
-            public void valueChanged(ValueChangeEvent<? extends Boolean> event) {
+            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
                 throw new RuntimeException("FAIL");
             }
         });
@@ -31,9 +31,9 @@ public class CheckBooleanObservable {
         changeObservableValue.accept(Boolean.TRUE);
         observable.value().orElseThrow(() -> new BadImplementationException("FAIL"));
         final ValueHolder<Boolean> valueHolder = new ValueHolder<>(false);
-        final Subscription subscription = observable.onChanged(new ValueChangeListener<Boolean>() {
+        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
             @Override
-            public void valueChanged(ValueChangeEvent<? extends Boolean> event) {
+            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
                 valueHolder.setValue(true);
             }
         });
@@ -68,9 +68,9 @@ public class CheckBooleanObservable {
 
         changeObservableValue.accept(Boolean.FALSE);
         final ValueHolder<Boolean> valueHolder = new ValueHolder<>(false);
-        final Subscription subscription = observable.onChanged(new ValueChangeListener<Boolean>() {
+        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
             @Override
-            public void valueChanged(ValueChangeEvent<? extends Boolean> event) {
+            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
                 valueHolder.setValue(true);
             }
         });
@@ -97,9 +97,9 @@ public class CheckBooleanObservable {
         changeObservableValue.accept(Boolean.TRUE);
 
         final ValueHolder<Boolean> valueHolder = new ValueHolder<>(false);
-        final Subscription subscription = observable.onChanged(new ValueChangeListener<Boolean>() {
+        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
             @Override
-            public void valueChanged(ValueChangeEvent<? extends Boolean> event) {
+            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
                 valueHolder.setValue(true);
             }
         });
@@ -126,9 +126,9 @@ public class CheckBooleanObservable {
         changeObservableValue.accept(Boolean.FALSE);
 
         final ValueHolder<Boolean> valueHolder = new ValueHolder<>(false);
-        final Subscription subscription = observable.onChanged(new ValueChangeListener<Boolean>() {
+        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
             @Override
-            public void valueChanged(ValueChangeEvent<? extends Boolean> event) {
+            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
                 valueHolder.setValue(true);
             }
         });
@@ -155,9 +155,9 @@ public class CheckBooleanObservable {
         changeObservableValue.accept(Boolean.TRUE);
 
         final ValueHolder<Boolean> valueHolder = new ValueHolder<>(false);
-        final Subscription subscription = observable.onChanged(new ValueChangeListener<Boolean>() {
+        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
             @Override
-            public void valueChanged(ValueChangeEvent<? extends Boolean> event) {
+            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
                 valueHolder.setValue(true);
             }
         });
@@ -184,9 +184,9 @@ public class CheckBooleanObservable {
         changeObservableValue.accept(Boolean.TRUE);
 
         final ValueHolder<Boolean> valueHolder = new ValueHolder<>(false);
-        final Subscription subscription = observable.onChanged(new ValueChangeListener<Boolean>() {
+        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
             @Override
-            public void valueChanged(ValueChangeEvent<? extends Boolean> event) {
+            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
                 valueHolder.setValue(true);
             }
         });

@@ -16,11 +16,11 @@ public class OnChangedAndCallExample {
         OnChangedAndCallExample instance = new OnChangedAndCallExample();
 
         //Instead of calling:
-        property.onChanged(e -> instance.update(e.getNewValue()));
+        property.onChanged(e -> instance.update(e.getValue()));
         instance.update(property.getValue());
 
         //You can simply write:
-        property.onChangedAndCall(e -> instance.update(e.getNewValue()));
+        property.onChangedAndCall(e -> instance.update(e.getValue()));
     }
 
 }

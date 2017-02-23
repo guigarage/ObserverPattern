@@ -26,7 +26,23 @@ public interface Observable<V> {
         return Optional.ofNullable(getValue());
     }
 
-    Subscription onChanged(ValueChangeListener<? super V> listener);
+    Subscription onChanged(ValueChangedListener<? super V> listener);
 
-    Subscription onChangedAndCall(ValueChangeListener<? super V> listener);
+    default Subscription onChangedAndCall(final ValueChangedListener<? super V> listener) {
+        final Subscription subscription = onChanged(listener);
+        listener.valueChanged(new ValueChangedEvent<V>() {
+            @Override
+            public Observable<V> getObservable() {
+                return Observable.this;
+            }
+
+            @Override
+            public V getValue() {
+                return Observable.this.getValue();
+            }
+        });
+        return subscription;
+    }
+
+    Subscription onWillChange(ValueWillChangeListener<? super V> listener);
 }

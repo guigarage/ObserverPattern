@@ -2,8 +2,10 @@ package com.guigarage.observer;
 
 import javax.observer.Observable;
 import javax.observer.Subscription;
-import javax.observer.ValueChangeEvent;
-import javax.observer.ValueChangeListener;
+import javax.observer.ValueChangedEvent;
+import javax.observer.ValueChangedListener;
+import javax.observer.ValueWillChangeEvent;
+import javax.observer.ValueWillChangeListener;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.Lock;
@@ -13,45 +15,64 @@ public class BasicObservable<V> implements Observable<V> {
 
     private V value;
 
-    private final List<ValueChangeListener<? super V>> listeners = new CopyOnWriteArrayList<>();
+    private final List<ValueChangedListener<? super V>> changedListeners = new CopyOnWriteArrayList<>();
 
-    private Lock valueLock = new ReentrantLock();
+    private final List<ValueWillChangeListener<? super V>> willChangelisteners = new CopyOnWriteArrayList<>();
+
+    private final Lock valueLock = new ReentrantLock();
 
     protected void updateValue(final V value) {
         if (this.value != value) {
-            V oldValue = this.value;
             valueLock.lock();
             try {
                 this.value = value;
             } finally {
                 valueLock.unlock();
-                fireChangeEvent(oldValue, this.value);
+                fireChangedEvent();
             }
         }
     }
 
-    private void fireChangeEvent(final V oldValue, final V newValue) {
-        final ValueChangeEvent<V> event = createChangeEvent(oldValue, newValue);
-        listeners.forEach(l -> l.valueChanged(event));
+    private void fireWillChangeEvent(final V newValue) {
+        final ValueHolder<Boolean> veto = new ValueHolder<>(false);
+
+        final ValueWillChangeEvent<V> event = new ValueWillChangeEvent<V>() {
+
+            @Override
+            public Observable<V> getObservable() {
+                return BasicObservable.this;
+            }
+
+            @Override
+            public V getNewValue() {
+                return newValue;
+            }
+
+            @Override
+            public void veto() {
+                veto.setValue(true);
+            }
+        };
+        willChangelisteners.forEach(l -> {
+            if(!veto.getValue()) {
+                l.valueWillChange(event);
+            }
+        });
     }
 
-    private ValueChangeEvent<V> createChangeEvent(final V oldValue, final V newValue) {
-        return new ValueChangeEvent<V>() {
-                @Override
-                public Observable getObservable() {
-                    return BasicObservable.this;
-                }
+    private void fireChangedEvent() {
+        final ValueChangedEvent<V> event = new ValueChangedEvent<V>() {
+            @Override
+            public Observable getObservable() {
+                return BasicObservable.this;
+            }
 
-                @Override
-                public V getOldValue() {
-                    return oldValue;
-                }
-
-                @Override
-                public V getNewValue() {
-                    return newValue;
-                }
-            };
+            @Override
+            public V getValue() {
+                return getValue();
+            }
+        };
+        changedListeners.forEach(l -> l.valueChanged(event));
     }
 
     @Override
@@ -60,18 +81,14 @@ public class BasicObservable<V> implements Observable<V> {
     }
 
     @Override
-    public Subscription onChanged(ValueChangeListener<? super V> listener) {
-        listeners.add(listener);
-        return () -> listeners.remove(listener);
+    public Subscription onChanged(final ValueChangedListener<? super V> listener) {
+        changedListeners.add(listener);
+        return () -> changedListeners.remove(listener);
     }
 
     @Override
-    public Subscription onChangedAndCall(ValueChangeListener<? super V> listener) {
-        listeners.add(listener);
-
-        final ValueChangeEvent<V> event = createChangeEvent(BasicObservable.this.getValue(), BasicObservable.this.getValue());
-
-        listener.valueChanged(event);
-        return () -> listeners.remove(listener);
+    public Subscription onWillChange(final ValueWillChangeListener<? super V> listener) {
+        willChangelisteners.add(listener);
+        return () -> willChangelisteners.remove(listener);
     }
 }
