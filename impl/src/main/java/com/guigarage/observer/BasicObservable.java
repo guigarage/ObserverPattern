@@ -2,8 +2,9 @@ package com.guigarage.observer;
 
 import javax.observer.Observable;
 import javax.observer.Subscription;
-import javax.observer.ValueChangeEvent;
-import javax.observer.ValueChangeListener;
+import javax.observer.ValueChangedEvent;
+import javax.observer.ValueChangedListener;
+import javax.observer.ValueWillChangeListener;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.concurrent.locks.Lock;
@@ -13,7 +14,7 @@ public class BasicObservable<V> implements Observable<V> {
 
     private V value;
 
-    private final List<ValueChangeListener<? super V>> listeners = new CopyOnWriteArrayList<>();
+    private final List<ValueChangedListener<? super V>> listeners = new CopyOnWriteArrayList<>();
 
     private Lock valueLock = new ReentrantLock();
 
@@ -31,19 +32,14 @@ public class BasicObservable<V> implements Observable<V> {
     }
 
     private void fireChangeEvent(final V oldValue, final V newValue) {
-        final ValueChangeEvent<V> event = new ValueChangeEvent<V>() {
+        final ValueChangedEvent<V> event = new ValueChangedEvent<V>() {
             @Override
             public Observable getObservable() {
                 return BasicObservable.this;
             }
 
             @Override
-            public V getOldValue() {
-                return oldValue;
-            }
-
-            @Override
-            public V getNewValue() {
+            public V getValue() {
                 return newValue;
             }
         };
@@ -56,8 +52,13 @@ public class BasicObservable<V> implements Observable<V> {
     }
 
     @Override
-    public Subscription onChanged(ValueChangeListener<? super V> listener) {
+    public Subscription onChanged(ValueChangedListener<? super V> listener) {
         listeners.add(listener);
         return () -> listeners.remove(listener);
+    }
+
+    @Override
+    public Subscription onWillChange(ValueWillChangeListener<? super V> listener) {
+        throw new RuntimeException("Not yet implemented!");
     }
 }

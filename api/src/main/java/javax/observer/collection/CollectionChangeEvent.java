@@ -16,13 +16,15 @@ import java.util.Collection;
  * @author Michael Hoffer (info@michaelhoffer.de)
  */
 public interface CollectionChangeEvent<T, OC extends Collection<T>, CC extends CollectionChange<T>> {
-        /**
+    /**
      * Indicates whether elements were added during this event.
      *
      * @return {@code true} if elements were added during this event;
      * {@code false} otherwise
      */
-    boolean wasAdded();
+    default boolean wasAdded() {
+        return !added().elements().isEmpty();
+    }
 
     /**
      * Indicates whether elements were removed during this event.
@@ -30,7 +32,9 @@ public interface CollectionChangeEvent<T, OC extends Collection<T>, CC extends C
      * @return {@code true} if elements were removed during this event;
      * {@code false} otherwise
      */
-    boolean wasRemoved();
+    default boolean wasRemoved() {
+        return !removed().elements().isEmpty();
+    }
 
     /**
      * Indicates whether elements were set, e.g., replaced during this event.
@@ -38,7 +42,9 @@ public interface CollectionChangeEvent<T, OC extends Collection<T>, CC extends C
      * @return {@code true} if elements were set during this event;
      * {@code false} otherwise
      */
-    boolean wasSet();
+    default boolean wasSet() {
+        return wasAdded() && wasRemoved();
+    }
 
     /**
      * Returns the change that contains all elements that were added during this
