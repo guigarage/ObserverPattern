@@ -4,7 +4,6 @@ import javax.observer.Observable;
 import javax.observer.Subscription;
 import javax.observer.ValueChangedEvent;
 import javax.observer.ValueChangedListener;
-import javax.observer.ValueWillChangeEvent;
 import javax.observer.ValueWillChangeListener;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;
@@ -15,52 +14,24 @@ public class BasicObservable<V> implements Observable<V> {
 
     private V value;
 
-    private final List<ValueChangedListener<? super V>> changedListeners = new CopyOnWriteArrayList<>();
+    private final List<ValueChangedListener<? super V>> listeners = new CopyOnWriteArrayList<>();
 
-    private final List<ValueWillChangeListener<? super V>> willChangelisteners = new CopyOnWriteArrayList<>();
-
-    private final Lock valueLock = new ReentrantLock();
+    private Lock valueLock = new ReentrantLock();
 
     protected void updateValue(final V value) {
         if (this.value != value) {
+            V oldValue = this.value;
             valueLock.lock();
             try {
                 this.value = value;
             } finally {
                 valueLock.unlock();
-                fireChangedEvent();
+                fireChangeEvent(oldValue, this.value);
             }
         }
     }
 
-    private void fireWillChangeEvent(final V newValue) {
-        final ValueHolder<Boolean> veto = new ValueHolder<>(false);
-
-        final ValueWillChangeEvent<V> event = new ValueWillChangeEvent<V>() {
-
-            @Override
-            public Observable<V> getObservable() {
-                return BasicObservable.this;
-            }
-
-            @Override
-            public V getNewValue() {
-                return newValue;
-            }
-
-            @Override
-            public void veto() {
-                veto.setValue(true);
-            }
-        };
-        willChangelisteners.forEach(l -> {
-            if(!veto.getValue()) {
-                l.valueWillChange(event);
-            }
-        });
-    }
-
-    private void fireChangedEvent() {
+    private void fireChangeEvent(final V oldValue, final V newValue) {
         final ValueChangedEvent<V> event = new ValueChangedEvent<V>() {
             @Override
             public Observable getObservable() {
@@ -69,10 +40,10 @@ public class BasicObservable<V> implements Observable<V> {
 
             @Override
             public V getValue() {
-                return getValue();
+                return newValue;
             }
         };
-        changedListeners.forEach(l -> l.valueChanged(event));
+        listeners.forEach(l -> l.valueChanged(event));
     }
 
     @Override
@@ -81,14 +52,13 @@ public class BasicObservable<V> implements Observable<V> {
     }
 
     @Override
-    public Subscription onChanged(final ValueChangedListener<? super V> listener) {
-        changedListeners.add(listener);
-        return () -> changedListeners.remove(listener);
+    public Subscription onChanged(ValueChangedListener<? super V> listener) {
+        listeners.add(listener);
+        return () -> listeners.remove(listener);
     }
 
     @Override
-    public Subscription onWillChange(final ValueWillChangeListener<? super V> listener) {
-        willChangelisteners.add(listener);
-        return () -> willChangelisteners.remove(listener);
+    public Subscription onWillChange(ValueWillChangeListener<? super V> listener) {
+        throw new RuntimeException("Not yet implemented!");
     }
 }
