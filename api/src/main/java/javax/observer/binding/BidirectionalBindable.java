@@ -10,7 +10,7 @@ import javax.observer.Subscription;
  * TODO: should this extend {@link Property}???
  * @param <T> value type
  */
-public interface BidirectionalBindable<T> extends Bindable<T> {
+public interface BidirectionalBindable<T, I extends BidirectionalBindable<T, I>> extends Bindable<T, I> {
 
     /**
      * Creates an bidirectional binding by binding this Bindable to the given {@link Property}.

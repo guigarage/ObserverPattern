@@ -2,9 +2,7 @@ package javax.observer;
 
 import java.util.Optional;
 
-/**
- * Created by hendrikebbers on 30.01.17.
- */
+
 public interface ValueWillChangeEvent<V> {
 
     Observable<V> getObservable();

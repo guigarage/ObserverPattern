@@ -9,7 +9,7 @@ import java.util.function.Function;
  * offers bindings between different value types by defining {@link Function} based converters.
  * @param <T> value type
  */
-public interface ConvertableBindable<T> extends Bindable<T> {
+public interface ConvertableBindable<T, I extends ConvertableBindable<T, I>> extends Bindable<T, I> {
 
     /**
      * By defining a converter a unidirectional binding to an {@link Observable} with a different value
