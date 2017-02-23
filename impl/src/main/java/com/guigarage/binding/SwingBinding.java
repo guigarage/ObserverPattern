@@ -112,7 +112,7 @@ public class SwingBinding {
                                 if (!bindingCalled.get()) {
                                     bindingCalled.set(true);
                                     try {
-                                        propertyEditor.setValue(converter.apply(e.getNewValue()));
+                                        propertyEditor.setValue(converter.apply(e.getValue()));
                                     } catch (Exception e1) {
                                         errorHandler.accept(e1);
                                     } finally {

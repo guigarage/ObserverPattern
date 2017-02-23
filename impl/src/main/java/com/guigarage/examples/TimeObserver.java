@@ -23,7 +23,7 @@ public class TimeObserver extends BasicObservable<LocalDateTime> {
 
     public static void main(String[] args) {
         TimeObserver observer = new TimeObserver();
-        observer.onChanged(e -> System.out.println(e.getNewValue()));
+        observer.onChanged(e -> System.out.println(e.getValue()));
     }
 
 }
