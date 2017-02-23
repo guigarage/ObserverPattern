@@ -67,6 +67,22 @@ public class BasicObservableTest {
             e.printStackTrace();
             Assert.fail("Error");
         }
+
+        try {
+            BasicObservable<Boolean> observable = new BasicObservable<>();
+            CheckBooleanObservable.checkChangeInWillChangeListenerEndsInError(observable, b -> observable.updateValue(b));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Error");
+        }
+
+        try {
+            BasicObservable<Boolean> observable = new BasicObservable<>();
+            CheckBooleanObservable.checkVetoWillNotResultInChange(observable, b -> observable.updateValue(b));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Error");
+        }
     }
 
 }

@@ -2,8 +2,6 @@ package javax.observer.tck;
 
 import javax.observer.Observable;
 import javax.observer.Subscription;
-import javax.observer.ValueChangedEvent;
-import javax.observer.ValueChangedListener;
 import javax.observer.tck.util.ValueHolder;
 import java.util.Objects;
 import java.util.function.Consumer;
@@ -15,13 +13,12 @@ public class CheckBooleanObservable {
         observable.getValue();
         observable.value();
         observable.value().orElse(true);
-        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
-            @Override
-            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
-                throw new RuntimeException("FAIL");
-            }
-        });
-        subscription.unsubscribe();
+
+        Subscription willChangeSubscription = observable.onWillChange(e -> new RuntimeException("FAIL"));
+        willChangeSubscription.unsubscribe();
+
+        Subscription changedSubscription = observable.onChanged(e -> new RuntimeException("FAIL"));
+        changedSubscription.unsubscribe();
     }
 
     public static void checkBooleanObservableChangeFromTrueToFalse(final Observable<Boolean> observable, final Consumer<Boolean> changeObservableValue) throws BadImplementationException {
@@ -30,34 +27,38 @@ public class CheckBooleanObservable {
 
         changeObservableValue.accept(Boolean.TRUE);
         observable.value().orElseThrow(() -> new BadImplementationException("FAIL"));
-        final ValueHolder<Boolean> valueHolder = new ValueHolder<>(false);
-        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
-            @Override
-            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
-                valueHolder.setValue(true);
-            }
-        });
-        if(observable.getValue() != true) {
+
+        final ValueHolder<Boolean> valeWillChangeHolder = new ValueHolder<>(false);
+        final Subscription willChangeSubscription = observable.onWillChange(e -> valeWillChangeHolder.setValue(true));
+
+        final ValueHolder<Boolean> valeChangedHolder = new ValueHolder<>(false);
+        final Subscription changedSubscription = observable.onChanged(e -> valeChangedHolder.setValue(true));
+
+        if (observable.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
-        if(observable.value().get() != true) {
+        if (observable.value().get() != true) {
             throw new BadImplementationException("FAIL");
         }
         changeObservableValue.accept(Boolean.FALSE);
-        if(observable.getValue() != false) {
+        if (observable.getValue() != false) {
             throw new BadImplementationException("FAIL");
         }
-        if(observable.value().get() != false) {
+        if (observable.value().get() != false) {
             throw new BadImplementationException("FAIL");
         }
-        if(valueHolder.getValue() != true) {
+        if (valeWillChangeHolder.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
-        subscription.unsubscribe();
-        if(observable.getValue() != false) {
+        if (valeChangedHolder.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
-        if(observable.value().get() != false) {
+        willChangeSubscription.unsubscribe();
+        changedSubscription.unsubscribe();
+        if (observable.getValue() != false) {
+            throw new BadImplementationException("FAIL");
+        }
+        if (observable.value().get() != false) {
             throw new BadImplementationException("FAIL");
         }
     }
@@ -67,25 +68,29 @@ public class CheckBooleanObservable {
         Objects.requireNonNull(changeObservableValue);
 
         changeObservableValue.accept(Boolean.FALSE);
-        final ValueHolder<Boolean> valueHolder = new ValueHolder<>(false);
-        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
-            @Override
-            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
-                valueHolder.setValue(true);
-            }
-        });
-        if(observable.getValue() != false) {
+
+        final ValueHolder<Boolean> valeWillChangeHolder = new ValueHolder<>(false);
+        final Subscription willChangeSubscription = observable.onWillChange(e -> valeWillChangeHolder.setValue(true));
+
+        final ValueHolder<Boolean> valueChangedHolder = new ValueHolder<>(false);
+        final Subscription changedSubscription = observable.onChanged(e -> valueChangedHolder.setValue(true));
+
+        if (observable.getValue() != false) {
             throw new BadImplementationException("FAIL");
         }
         changeObservableValue.accept(Boolean.TRUE);
-        if(observable.getValue() != true) {
+        if (observable.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
-        if(valueHolder.getValue() != true) {
+        if (valeWillChangeHolder.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
-        subscription.unsubscribe();
-        if(observable.getValue() != true) {
+        if (valueChangedHolder.getValue() != true) {
+            throw new BadImplementationException("FAIL");
+        }
+        willChangeSubscription.unsubscribe();
+        changedSubscription.unsubscribe();
+        if (observable.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
     }
@@ -96,25 +101,28 @@ public class CheckBooleanObservable {
 
         changeObservableValue.accept(Boolean.TRUE);
 
-        final ValueHolder<Boolean> valueHolder = new ValueHolder<>(false);
-        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
-            @Override
-            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
-                valueHolder.setValue(true);
-            }
-        });
-        if(observable.getValue() != true) {
+        final ValueHolder<Boolean> valeWillChangeHolder = new ValueHolder<>(false);
+        final Subscription willChangeSubscription = observable.onWillChange(e -> valeWillChangeHolder.setValue(true));
+
+        final ValueHolder<Boolean> valueChangedHolder = new ValueHolder<>(false);
+        final Subscription changedSubscription = observable.onChanged(e -> valueChangedHolder.setValue(true));
+
+        if (observable.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
         changeObservableValue.accept(null);
-        if(observable.getValue() != null) {
+        if (observable.getValue() != null) {
             throw new BadImplementationException("FAIL");
         }
-        if(valueHolder.getValue() != true) {
+        if (valeWillChangeHolder.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
-        subscription.unsubscribe();
-        if(observable.getValue() != null) {
+        if (valueChangedHolder.getValue() != true) {
+            throw new BadImplementationException("FAIL");
+        }
+        willChangeSubscription.unsubscribe();
+        changedSubscription.unsubscribe();
+        if (observable.getValue() != null) {
             throw new BadImplementationException("FAIL");
         }
     }
@@ -125,25 +133,28 @@ public class CheckBooleanObservable {
 
         changeObservableValue.accept(Boolean.FALSE);
 
-        final ValueHolder<Boolean> valueHolder = new ValueHolder<>(false);
-        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
-            @Override
-            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
-                valueHolder.setValue(true);
-            }
-        });
-        if(observable.getValue() != false) {
+        final ValueHolder<Boolean> valeWillChangeHolder = new ValueHolder<>(false);
+        final Subscription willChangeSubscription = observable.onWillChange(e -> valeWillChangeHolder.setValue(true));
+
+        final ValueHolder<Boolean> valueChangedHolder = new ValueHolder<>(false);
+        final Subscription changedSubscription = observable.onChanged(e -> valueChangedHolder.setValue(true));
+
+        if (observable.getValue() != false) {
             throw new BadImplementationException("FAIL");
         }
         changeObservableValue.accept(null);
-        if(observable.getValue() != null) {
+        if (observable.getValue() != null) {
             throw new BadImplementationException("FAIL");
         }
-        if(valueHolder.getValue() != true) {
+        if (valeWillChangeHolder.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
-        subscription.unsubscribe();
-        if(observable.getValue() != null) {
+        if (valueChangedHolder.getValue() != true) {
+            throw new BadImplementationException("FAIL");
+        }
+        willChangeSubscription.unsubscribe();
+        changedSubscription.unsubscribe();
+        if (observable.getValue() != null) {
             throw new BadImplementationException("FAIL");
         }
     }
@@ -154,25 +165,28 @@ public class CheckBooleanObservable {
 
         changeObservableValue.accept(Boolean.TRUE);
 
-        final ValueHolder<Boolean> valueHolder = new ValueHolder<>(false);
-        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
-            @Override
-            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
-                valueHolder.setValue(true);
-            }
-        });
-        if(observable.getValue() != true) {
+        final ValueHolder<Boolean> valeWillChangeHolder = new ValueHolder<>(false);
+        final Subscription willChangeSubscription = observable.onWillChange(e -> valeWillChangeHolder.setValue(true));
+
+        final ValueHolder<Boolean> valueChangedHolder = new ValueHolder<>(false);
+        final Subscription changedSubscription = observable.onChanged(e -> valueChangedHolder.setValue(true));
+
+        if (observable.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
         changeObservableValue.accept(Boolean.TRUE);
-        if(observable.getValue() != true) {
+        if (observable.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
-        if(valueHolder.getValue() != false) {
+        if (valeWillChangeHolder.getValue() != false) {
             throw new BadImplementationException("FAIL");
         }
-        subscription.unsubscribe();
-        if(observable.getValue() != true) {
+        if (valueChangedHolder.getValue() != false) {
+            throw new BadImplementationException("FAIL");
+        }
+        willChangeSubscription.unsubscribe();
+        changedSubscription.unsubscribe();
+        if (observable.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
     }
@@ -183,31 +197,77 @@ public class CheckBooleanObservable {
 
         changeObservableValue.accept(Boolean.TRUE);
 
-        final ValueHolder<Boolean> valueHolder = new ValueHolder<>(false);
-        final Subscription subscription = observable.onChanged(new ValueChangedListener<Boolean>() {
-            @Override
-            public void valueChanged(ValueChangedEvent<? extends Boolean> event) {
-                valueHolder.setValue(true);
-            }
-        });
-        if(observable.getValue() != true) {
+        final ValueHolder<Boolean> valeWillChangeHolder = new ValueHolder<>(false);
+        final Subscription willChangeSubscription = observable.onWillChange(e -> valeWillChangeHolder.setValue(true));
+
+        final ValueHolder<Boolean> valueChangedHolder = new ValueHolder<>(false);
+        final Subscription changedSubscription = observable.onChanged(e -> valueChangedHolder.setValue(true));
+
+        if (observable.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
         changeObservableValue.accept(Boolean.FALSE);
-        if(observable.getValue() != false) {
+        if (observable.getValue() != false) {
             throw new BadImplementationException("FAIL");
         }
-        if(valueHolder.getValue() != true) {
+        if (valeWillChangeHolder.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
-        subscription.unsubscribe();
-        valueHolder.setValue(false);
+        if (valueChangedHolder.getValue() != true) {
+            throw new BadImplementationException("FAIL");
+        }
+        willChangeSubscription.unsubscribe();
+        changedSubscription.unsubscribe();
+        valeWillChangeHolder.setValue(false);
+        valueChangedHolder.setValue(false);
         changeObservableValue.accept(Boolean.TRUE);
-        if(observable.getValue() != true) {
+        if (observable.getValue() != true) {
             throw new BadImplementationException("FAIL");
         }
-        if(valueHolder.getValue() != false) {
+        if (valeWillChangeHolder.getValue() != false) {
             throw new BadImplementationException("FAIL");
+        }
+        if (valueChangedHolder.getValue() != false) {
+            throw new BadImplementationException("FAIL");
+        }
+    }
+
+    public static void checkChangeInWillChangeListenerEndsInError(final Observable<Boolean> observable, final Consumer<Boolean> changeObservableValue) throws BadImplementationException {
+        Objects.requireNonNull(observable);
+        Objects.requireNonNull(changeObservableValue);
+
+        final ValueHolder<IllegalStateException> exceptionHolder = new ValueHolder<>();
+
+
+        observable.onWillChange(e -> {
+            try {
+                changeObservableValue.accept(Boolean.FALSE);
+            } catch (IllegalStateException ex) {
+                exceptionHolder.setValue(ex);
+            }
+        });
+        changeObservableValue.accept(Boolean.TRUE);
+
+        if(exceptionHolder.getValue() == null) {
+            throw new BadImplementationException("FAIL");
+        }
+    }
+
+    public static void checkVetoWillNotResultInChange(final Observable<Boolean> observable, final Consumer<Boolean> changeObservableValue) throws BadImplementationException {
+        Objects.requireNonNull(observable);
+        Objects.requireNonNull(changeObservableValue);
+
+        final ValueHolder<BadImplementationException> exceptionHolder = new ValueHolder<>();
+
+
+        observable.onWillChange(e -> e.veto());
+
+        observable.onChanged(e -> exceptionHolder.setValue(new BadImplementationException("FAIL")));
+
+        changeObservableValue.accept(Boolean.TRUE);
+
+        if(exceptionHolder.getValue() != null) {
+            throw exceptionHolder.getValue();
         }
     }
 
