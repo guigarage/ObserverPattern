@@ -4,6 +4,10 @@ import javax.observer.Observable;
 import javax.observer.Subscription;
 import java.util.Objects;
 
+/**
+ * 
+ * @author Thomas Zimmermann (https://github.com/zimmi)
+ */
 public class CheckLongObservable
 {
 
