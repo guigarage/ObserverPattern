@@ -9,7 +9,7 @@ import java.util.Objects;
  */
 public class CheckStringObservable {
     
-    public static void checkBooleanObservableBasicMethods(final Observable<String> observable) {
+    public static void checkStringObservableBasicMethods(final Observable<String> observable) {
         Objects.requireNonNull(observable);
         observable.getValue();
         observable.value();

@@ -4,6 +4,7 @@ import org.junit.Assert;
 import org.junit.Test;
 
 import javax.observer.tck.CheckBooleanObservable;
+import javax.observer.tck.CheckStringObservable;
 
 /**
  * Created by hendrikebbers on 11.11.16.
@@ -79,6 +80,14 @@ public class BasicObservableTest {
         try {
             BasicObservable<Boolean> observable = new BasicObservable<>();
             CheckBooleanObservable.checkVetoWillNotResultInChange(observable, b -> observable.updateValue(b));
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Error");
+        }
+
+        try {
+            BasicObservable<String> observable = new BasicObservable<>();
+            CheckStringObservable.checkStringObservableBasicMethods(observable);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Error");
