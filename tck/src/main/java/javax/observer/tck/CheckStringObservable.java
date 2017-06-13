@@ -5,7 +5,7 @@ import javax.observer.Subscription;
 import java.util.Objects;
 
 /**
- * Created by AMeissne on 13.06.2017.
+ * @author AMeissne
  */
 public class CheckStringObservable {
     
