@@ -89,7 +89,7 @@ public class BasicObservableTest {
     @Test
     public void testLongObservable() {
         try {
-            BasicObservable<Long> observable = new BasicObservable<>();
+            final BasicObservable<Long> observable = new BasicObservable<>();
             CheckLongObservable.checkLongObservableBasicMethods(observable);
         } catch (Exception e) {
             e.printStackTrace();
