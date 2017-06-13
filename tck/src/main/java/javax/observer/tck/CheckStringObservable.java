@@ -15,10 +15,10 @@ public class CheckStringObservable {
         observable.value();
         observable.value().orElse(null);
 
-        Subscription willChangeSubscription = observable.onWillChange(e -> new RuntimeException("FAIL"));
+        final Subscription willChangeSubscription = observable.onWillChange(e -> new RuntimeException("FAIL"));
         willChangeSubscription.unsubscribe();
 
-        Subscription changedSubscription = observable.onChanged(e -> new RuntimeException("FAIL"));
+        final Subscription changedSubscription = observable.onChanged(e -> new RuntimeException("FAIL"));
         changedSubscription.unsubscribe();
     }
 
