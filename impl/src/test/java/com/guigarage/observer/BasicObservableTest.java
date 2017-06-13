@@ -86,7 +86,7 @@ public class BasicObservableTest {
         }
 
         try {
-            BasicObservable<String> observable = new BasicObservable<>();
+            final BasicObservable<String> observable = new BasicObservable<>();
             CheckStringObservable.checkStringObservableBasicMethods(observable);
         } catch (Exception e) {
             e.printStackTrace();
