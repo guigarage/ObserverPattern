@@ -5,6 +5,7 @@ import org.junit.Test;
 
 import javax.observer.tck.CheckBooleanObservable;
 import javax.observer.tck.CheckStringObservable;
+import javax.observer.tck.CheckLongObservable;
 
 /**
  * Created by hendrikebbers on 11.11.16.
@@ -88,6 +89,17 @@ public class BasicObservableTest {
         try {
             final BasicObservable<String> observable = new BasicObservable<>();
             CheckStringObservable.checkStringObservableBasicMethods(observable);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Assert.fail("Error");
+        }
+    }
+    
+    @Test
+    public void testLongObservable() {
+        try {
+            final BasicObservable<Long> observable = new BasicObservable<>();
+            CheckLongObservable.checkLongObservableBasicMethods(observable);
         } catch (Exception e) {
             e.printStackTrace();
             Assert.fail("Error");
