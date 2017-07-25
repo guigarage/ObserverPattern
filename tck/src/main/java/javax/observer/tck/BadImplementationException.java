@@ -5,6 +5,8 @@ package javax.observer.tck;
  */
 public class BadImplementationException extends Exception {
 
+    private static final long serialVersionUID = 3516709693804131141L;
+
     public BadImplementationException(String message) {
         super(message);
     }
