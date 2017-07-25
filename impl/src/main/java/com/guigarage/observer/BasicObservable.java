@@ -38,7 +38,7 @@ public class BasicObservable<V> implements Observable<V> {
     private boolean fireWillChangeEvent(final V newValue) {
         inWillChangeEvent = true;
         try {
-            final ValueWillChangeEventImpl<V> event = new ValueWillChangeEventImpl(this, newValue);
+            final ValueWillChangeEventImpl<V> event = new ValueWillChangeEventImpl<>(this, newValue);
             Iterator<ValueWillChangeListener<? super V>> listenerIterator = willChangeListeners.iterator();
             while (listenerIterator.hasNext() && !event.isVetoCalled()) {
                 listenerIterator.next().valueWillChange(event);
@@ -52,7 +52,7 @@ public class BasicObservable<V> implements Observable<V> {
     private void fireChangedEvent(final V newValue) {
         final ValueChangedEvent<V> event = new ValueChangedEvent<V>() {
             @Override
-            public Observable getObservable() {
+            public Observable<V> getObservable() {
                 return BasicObservable.this;
             }
 
