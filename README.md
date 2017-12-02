@@ -6,7 +6,7 @@ This repository contains a generic definition of the observer pattern for Java.
 
 Currently Java only contains the `java.util.Observable` class that is part since Java 1 and it's
 functionality and API don't use modern Java languages features and APIs like generics, functional
-interfaces or Optional. In additional this API will become deprecated in Java 9.
+interfaces or Optional. In addition, this API will become deprecated in Java 9.
 Based on this it's quite hard to work with this implementation and mostly
 all modern Java framework don't use it. Instead custom implementations of the observer pattern
 can be found in mostly all frameworks. Even in JavaSE you can find custom implementations of the
@@ -36,8 +36,8 @@ support values must be wrapped in a class to support the observer pattern. There
 will be triggered whenever the internal value will change:
 
 ```java
-Observable<Date> observer = ...
-observer.onChanged(e -> System.out.println("Value has changed!"));
+Observable<Date> observable = ...
+observable.onChanged(e -> System.out.println("Value has changed!"));
 ```
 
 Instead of having `addListener(...)` and `removeListener(...)` methods like in several Java APIs the 
@@ -46,8 +46,8 @@ the listener:
 
 
 ```java
-Observable<Date> observer = ...
-Subscription subscription = observer.onChanged(e -> System.out.println(e.getNewValue()));
+Observable<Date> observable = ...
+Subscription subscription = observable.onChanged(e -> System.out.println(e.getNewValue()));
 
 //later
 subscription.unsubscribe();
@@ -57,7 +57,7 @@ subscription.unsubscribe();
 
 The API provides the 2 base interfaces `com.guigarage.observer.collection.ObservableList` and
 `com.guigarage.observer.collection.ObservableSet` that can be used to provide the observer pattern 
-for collections. The following examle shows how an observable list can be used:
+for collections. The following example shows how an observable list can be used:
 
 ```java
 ObservableList<String> list = ...
