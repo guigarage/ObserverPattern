@@ -1,0 +1,6 @@
+javax/observer/tck/BadImplementationException.class
+javax/observer/tck/CheckLongObservable.class
+javax/observer/tck/util/ValueHolder.class
+javax/observer/tck/CheckBooleanObservable.class
+javax/observer/tck/CheckBooleanProperty.class
+javax/observer/tck/CheckStringObservable.class
