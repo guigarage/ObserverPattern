@@ -9,7 +9,7 @@ import java.util.function.Function;
  * offers bindings between different value types by defining {@link Function} based converters.
  * @param <T> value type
  */
-public interface ConvertableBidirectionalBindable<T> extends ConvertableBindable<T>, BidirectionalBindable<T> {
+public interface ConvertableBidirectionalBindable<T, I extends ConvertableBidirectionalBindable<T, I>> extends ConvertableBindable<T, I>, BidirectionalBindable<T, I> {
 
     /**
       *By defining a converter a bidirectional binding to an {@link Property} with a different value

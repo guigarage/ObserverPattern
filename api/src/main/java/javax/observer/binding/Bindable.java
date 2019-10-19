@@ -8,11 +8,9 @@ import java.util.function.Consumer;
  * This interface defines objects that can be bound to an {@link Observable}. By doing so any change of
  * the value of the {@link Observable} will be propagated to this object.
  *
- * TODO: should this extend {@link Observable}???
- *
  * @param <T> type of the value
  */
-public interface Bindable<T> {
+public interface Bindable<T, I extends Bindable<T, I>> {
 
     /**
      * Creates an unidirectional binding by binding this Bindable to the given {@link Observable}.
@@ -28,6 +26,6 @@ public interface Bindable<T> {
      * @param handler the error handler
      * @return this object. This can be used to create a small fluent API
      */
-    ConvertableBindable<T> withErrorHandler(Consumer<Throwable> handler);
+    I withErrorHandler(Consumer<Throwable> handler);
 
 }
